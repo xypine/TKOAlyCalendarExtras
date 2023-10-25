@@ -3,11 +3,16 @@ import { convertToICS, type TKOÄlyEvent } from '$lib/ics';
 
 export async function GET({ url }) {
 	let includeRegistrationEnds;
+	let eventLength;
 	try {
 		includeRegistrationEnds = JSON.parse(url.searchParams.get('includeDeadlines') ?? 'true');
+		eventLength = parseInt(url.searchParams.get('eventLength') ?? '0');
+		if (eventLength === 0) {
+			eventLength = null;
+		}
 	} catch (e) {
 		console.error(e);
-		throw error(400, 'Invalid includeDeadlines parameter');
+		throw error(400, 'Invalid parameters');
 	}
 
 	let response;
@@ -30,7 +35,7 @@ export async function GET({ url }) {
 			throw error(500, 'Failed to parse events (not an array)');
 		}
 		console.log(events.length, 'events fetched');
-		const ics = convertToICS(events as TKOÄlyEvent[], includeRegistrationEnds);
+		const ics = convertToICS(events as TKOÄlyEvent[], includeRegistrationEnds, eventLength);
 		return text(ics, { headers: { 'Content-Type': 'text/calendar' } });
 	} catch (e) {
 		console.error(e);

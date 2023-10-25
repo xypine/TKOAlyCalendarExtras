@@ -11,10 +11,11 @@
 		:global(body) {
 			background-color: #000;
 			color: #ddd;
+			color-scheme: dark;
 		}
 
 		:global(a) {
-			color: #94d8b0;
+			color: #f8f800;
 		}
 	}
 </style>

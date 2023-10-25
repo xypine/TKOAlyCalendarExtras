@@ -22,7 +22,7 @@ type Organizer = string;
 export function convertToICS(
 	events: TKOÄlyEvent[],
 	include_registration_ends: boolean = true,
-	pad_minutes: number = 15
+	pad_minutes: number | null = 15
 ): string {
 	const filteredEvents = filterEvents(events);
 	let icsFile = `BEGIN:VCALENDAR
@@ -38,9 +38,11 @@ METHOD:PUBLISH
 			icsFile += `BEGIN:VEVENT\n`;
 			icsFile += `UID:${event.id}-reg-start@tkoaly.fi\n`;
 			icsFile += `DTSTART:${formatDateToICS(event.registration_starts)}\n`;
-			icsFile += `DTEND:${formatDateToICS(
-				new Date(new Date(event.registration_starts).getTime() + pad_minutes * 60 * 1000)
-			)}\n`;
+			if (pad_minutes != null) {
+				icsFile += `DTEND:${formatDateToICS(
+					new Date(new Date(event.registration_starts).getTime() + pad_minutes * 60 * 1000)
+				)}\n`;
+			}
 			icsFile += `DTSTAMP:${formatDateToICS(new Date())}\n`;
 			icsFile += `SUMMARY:Ilmo aukeaa: ${event.name}\n`;
 			icsFile += `LOCATION:https://members.tko-aly.fi/event/${event.id}\n`;
@@ -53,9 +55,11 @@ METHOD:PUBLISH
 			icsFile += `BEGIN:VEVENT\n`;
 			icsFile += `UID:${event.id}-reg-end@tkoaly.fi\n`;
 			icsFile += `DTSTART:${formatDateToICS(event.registration_ends)}\n`;
-			icsFile += `DTEND:${formatDateToICS(
-				new Date(new Date(event.registration_ends).getTime() + pad_minutes * 60 * 1000)
-			)}\n`;
+			if (pad_minutes != null) {
+				icsFile += `DTEND:${formatDateToICS(
+					new Date(new Date(event.registration_ends).getTime() + pad_minutes * 60 * 1000)
+				)}\n`;
+			}
 			icsFile += `DTSTAMP:${formatDateToICS(new Date())}\n`;
 			icsFile += `SUMMARY:Ilmo sulkeutuu: ${event.name}\n`;
 			icsFile += `LOCATION:https://members.tko-aly.fi/event/${event.id}\n`;
