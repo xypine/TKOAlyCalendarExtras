@@ -51,7 +51,8 @@
 	</button>
 	<div class="spacer" />
 	<p>
-		made by <a href="https://eliaseskelinen.fi">Elias Eskelinen</a>
+		made by <a target="_blank" href="https://eliaseskelinen.fi">Elias Eskelinen</a>, contribute on
+		<a target="_blank" href="https://github.com/xypine/TKOAlyCalendarExtras">GitHub</a>
 	</p>
 </main>
 
