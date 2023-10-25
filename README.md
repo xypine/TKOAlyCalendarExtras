@@ -1,6 +1,7 @@
 # TKO-äly calendar extras
 
 For now, this project adds the following events:
+
 - When registrations for events open
 - When registrations for events close
 
