@@ -5,12 +5,12 @@ export type TKOÄlyEvent = {
 	name: string;
 	user_id: number | null;
 	price: string;
-	created: Date | null;
-	starts: Date;
-	registration_starts: Date | null;
-	registration_ends: Date | null;
-	cancellation_starts: Date | null;
-	cancellation_ends: Date | null;
+	created: string | null;
+	starts: string;
+	registration_starts: string | null;
+	registration_ends: string | null;
+	cancellation_starts: string | null;
+	cancellation_ends: string | null;
 	organizer: Organizer | null;
 	location: string;
 	category: null | string;
@@ -39,7 +39,7 @@ METHOD:PUBLISH
 			icsFile += `UID:${event.id}-reg-start@tkoaly.fi\n`;
 			icsFile += `DTSTART:${formatDateToICS(event.registration_starts)}\n`;
 			icsFile += `DTEND:${formatDateToICS(
-				new Date(event.registration_starts.getTime() + pad_minutes * 60 * 1000)
+				new Date(new Date(event.registration_starts).getTime() + pad_minutes * 60 * 1000)
 			)}\n`;
 			icsFile += `DTSTAMP:${formatDateToICS(new Date())}\n`;
 			icsFile += `SUMMARY:Ilmo aukeaa: ${event.name}\n`;
@@ -54,7 +54,7 @@ METHOD:PUBLISH
 			icsFile += `UID:${event.id}-reg-end@tkoaly.fi\n`;
 			icsFile += `DTSTART:${formatDateToICS(event.registration_ends)}\n`;
 			icsFile += `DTEND:${formatDateToICS(
-				new Date(event.registration_ends.getTime() + pad_minutes * 60 * 1000)
+				new Date(new Date(event.registration_ends).getTime() + pad_minutes * 60 * 1000)
 			)}\n`;
 			icsFile += `DTSTAMP:${formatDateToICS(new Date())}\n`;
 			icsFile += `SUMMARY:Ilmo sulkeutuu: ${event.name}\n`;
