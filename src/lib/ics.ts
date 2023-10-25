@@ -37,6 +37,9 @@ METHOD:PUBLISH
 			icsFile += `BEGIN:VEVENT\n`;
 			icsFile += `UID:${event.id}-reg-start@tkoaly.fi\n`;
 			icsFile += `DTSTART:${formatDateToICS(event.registration_starts)}\n`;
+			icsFile += `DTEND:${formatDateToICS(
+				new Date(event.registration_starts.getTime() + 15 * 60 * 1000)
+			)}\n`; // 15 minutes added
 			icsFile += `DTSTAMP:${formatDateToICS(new Date())}\n`;
 			icsFile += `SUMMARY:Ilmo aukeaa: ${event.name}\n`;
 			icsFile += `LOCATION:https://members.tko-aly.fi/event/${event.id}\n`;
@@ -49,6 +52,9 @@ METHOD:PUBLISH
 			icsFile += `BEGIN:VEVENT\n`;
 			icsFile += `UID:${event.id}-reg-end@tkoaly.fi\n`;
 			icsFile += `DTSTART:${formatDateToICS(event.registration_ends)}\n`;
+			icsFile += `DTEND:${formatDateToICS(
+				new Date(event.registration_ends.getTime() + 15 * 60 * 1000)
+			)}\n`; // 15 minutes added
 			icsFile += `DTSTAMP:${formatDateToICS(new Date())}\n`;
 			icsFile += `SUMMARY:Ilmo sulkeutuu: ${event.name}\n`;
 			icsFile += `LOCATION:https://members.tko-aly.fi/event/${event.id}\n`;
