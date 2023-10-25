@@ -53,6 +53,7 @@
 			<p>Event length in minutes</p>
 			<input type="number" min="0" max="720" bind:value={eventLength} />
 			<button
+				class="info"
 				title="longer events are easier to see on your calendar"
 				on:click={(e) => {
 					if (e.target && 'title' in e.target && e.target.title) {
@@ -61,7 +62,7 @@
 					}
 				}}
 			>
-				🛈
+				?
 			</button>
 		</label>
 		<button
@@ -114,7 +115,14 @@
 		text-align: center;
 	}
 	label button {
-		border: none;
+		border: 1px solid;
+		border-radius: 9999999999px;
+		width: 1.5em;
+		height: 1.5em;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		font-weight: bold;
 		background-color: transparent;
 		cursor: pointer;
 		color: inherit;
