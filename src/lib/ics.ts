@@ -28,6 +28,8 @@ export function convertToICS(
 	let icsFile = `BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//TKOÄly Events Calendar//EN
+NAME:TKO-äly calendar extras
+X-WR-CALNAME:TKO-äly calendar extras
 CALSCALE:GREGORIAN
 METHOD:PUBLISH
 `;
@@ -73,7 +75,7 @@ METHOD:PUBLISH
 	return icsFile;
 }
 
-function filterEvents(events: TKOÄlyEvent[]): TKOÄlyEvent[] {
+export function filterEvents(events: TKOÄlyEvent[]): TKOÄlyEvent[] {
 	return events.filter(
 		({ deleted, name, starts }) =>
 			!deleted &&
@@ -82,6 +84,16 @@ function filterEvents(events: TKOÄlyEvent[]): TKOÄlyEvent[] {
 	);
 }
 
-function formatDateToICS(date: Date | string): string {
-	return new Date(date).toISOString().replace(/-|:|\.\d+/g, '');
+export function formatDateToICS(date: Date | string): string {
+	const pad = (num: number) => num.toString().padStart(2, '0');
+
+	const actual_date = new Date(date);
+	const year = actual_date.getUTCFullYear();
+	const month = pad(actual_date.getUTCMonth() + 1); // getUTCMonth() returns 0-11
+	const day = pad(actual_date.getUTCDate());
+	const hours = pad(actual_date.getUTCHours());
+	const minutes = pad(actual_date.getUTCMinutes());
+	const seconds = pad(actual_date.getUTCSeconds());
+
+	return `${year}${month}${day}T${hours}${minutes}${seconds}Z`;
 }
