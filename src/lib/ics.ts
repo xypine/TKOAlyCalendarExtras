@@ -1,4 +1,6 @@
+import ical from 'ical-generator';
 import { isAfter, addMinutes } from 'date-fns';
+import { getVtimezoneComponent } from '@touch4it/ical-timezones';
 
 export type TKOÄlyEvent = {
 	id: number;
@@ -22,57 +24,47 @@ type Organizer = string;
 export function convertToICS(
 	events: TKOÄlyEvent[],
 	include_registration_ends: boolean = true,
-	pad_minutes: number | null = 15
+	pad_minutes: number = 15
 ): string {
+	console.log('pad_minutes', pad_minutes);
 	const filteredEvents = filterEvents(events);
-	let icsFile = `BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:-//TKOÄly Events Calendar//EN
-NAME:TKO-äly calendar extras
-X-WR-CALNAME:TKO-äly calendar extras
-CALSCALE:GREGORIAN
-METHOD:PUBLISH
-`;
+	const calendar = ical({ name: 'TKO-äly calendar extras' });
+	calendar.timezone({
+		name: 'FOO',
+		generator: getVtimezoneComponent
+	});
 
 	filteredEvents.forEach((event) => {
 		// Registration Start Event
 		if (event.registration_starts) {
-			icsFile += `BEGIN:VEVENT\n`;
-			icsFile += `UID:${event.id}-reg-start@tkoaly.fi\n`;
-			icsFile += `DTSTART:${formatDateToICS(event.registration_starts)}\n`;
-			if (pad_minutes != null) {
-				icsFile += `DTEND:${formatDateToICS(
-					new Date(new Date(event.registration_starts).getTime() + pad_minutes * 60 * 1000)
-				)}\n`;
-			}
-			icsFile += `DTSTAMP:${formatDateToICS(new Date())}\n`;
-			icsFile += `SUMMARY:Ilmo aukeaa: ${event.name}\n`;
-			icsFile += `LOCATION:https://members.tko-aly.fi/event/${event.id}\n`;
-			icsFile += `DESCRIPTION:Ilmo TKO-älyn tapahtumaan "${event.name}" aukeaa\n`;
-			icsFile += `END:VEVENT\n`;
+			calendar.createEvent({
+				id: `${event.id}-reg-start@tkoaly.fi`,
+				start: new Date(event.registration_starts),
+				end: new Date(new Date(event.registration_starts).getTime() + pad_minutes * 60 * 1000),
+				summary: `Ilmo aukeaa: ${event.name}`,
+				description: `Ilmo TKO-älyn tapahtumaan "${event.name}" aukeaa`,
+				location: `https://members.tko-aly.fi/event/${event.id}`,
+				url: `https://members.tko-aly.fi/event/${event.id}`,
+				timezone: 'Europe/Helsinki'
+			});
 		}
 
 		// Registration End Event
 		if (include_registration_ends && event.registration_ends) {
-			icsFile += `BEGIN:VEVENT\n`;
-			icsFile += `UID:${event.id}-reg-end@tkoaly.fi\n`;
-			icsFile += `DTSTART:${formatDateToICS(event.registration_ends)}\n`;
-			if (pad_minutes != null) {
-				icsFile += `DTEND:${formatDateToICS(
-					new Date(new Date(event.registration_ends).getTime() + pad_minutes * 60 * 1000)
-				)}\n`;
-			}
-			icsFile += `DTSTAMP:${formatDateToICS(new Date())}\n`;
-			icsFile += `SUMMARY:Ilmo sulkeutuu: ${event.name}\n`;
-			icsFile += `LOCATION:https://members.tko-aly.fi/event/${event.id}\n`;
-			icsFile += `DESCRIPTION:Ilmo TKO-älyn tapahtumaan "${event.name}" sulkeutuu\n`;
-			icsFile += `END:VEVENT\n`;
+			calendar.createEvent({
+				id: `${event.id}-reg-end@tkoaly.fi`,
+				start: new Date(event.registration_ends),
+				end: new Date(new Date(event.registration_ends).getTime() + pad_minutes * 60 * 1000),
+				summary: `Ilmo sulkeutuu: ${event.name}`,
+				description: `Ilmo TKO-älyn tapahtumaan "${event.name}" sulkeutuu`,
+				location: `https://members.tko-aly.fi/event/${event.id}`,
+				url: `https://members.tko-aly.fi/event/${event.id}`,
+				timezone: 'Europe/Helsinki'
+			});
 		}
 	});
 
-	icsFile += `END:VCALENDAR`;
-
-	return icsFile;
+	return calendar.toString();
 }
 
 export function filterEvents(events: TKOÄlyEvent[]): TKOÄlyEvent[] {

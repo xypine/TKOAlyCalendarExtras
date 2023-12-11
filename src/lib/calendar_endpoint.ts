@@ -8,7 +8,7 @@ export async function ICSEndpoint(url: URL) {
 		includeRegistrationEnds = JSON.parse(url.searchParams.get('includeDeadlines') ?? 'true');
 		eventLength = parseInt(url.searchParams.get('eventLength') ?? '0');
 		if (eventLength === 0) {
-			eventLength = null;
+			eventLength = undefined;
 		}
 	} catch (e) {
 		console.error(e);
