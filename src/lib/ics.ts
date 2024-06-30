@@ -78,21 +78,20 @@ export function filterEvents(events: TKOÄlyEvent[]): TKOÄlyEvent[] {
 
 export function convertToICSHistorical(events: TKOÄlyEvent[]): string {
 	const calendar = ical({ name: 'TKO-äly calendar extras – historical events' });
-	calendar.timezone({
-		name: 'FOO',
-		generator: getVtimezoneComponent
-	});
 
 	events.forEach((event) => {
-		calendar.createEvent({
-			id: `${event.id}-historical@tkoaly.fi`,
-			start: new Date(event.starts),
-			summary: event.name,
-			description: event.description,
-			location: event.location,
-			url: `https://members.tko-aly.fi/event/${event.id}`,
-			timezone: 'Europe/Helsinki'
-		});
+		try {
+			calendar.createEvent({
+				id: `${event.id}-historical@tkoaly.fi`,
+				start: new Date(event.starts),
+				summary: event.name,
+				description: event.description,
+				location: event.location,
+				url: `https://members.tko-aly.fi/event/${event.id}`,
+			});
+		} catch (e) {
+			console.warn('Failed to create event', event, 'as it caused an error:', e);
+		}
 	});
 
 	return calendar.toString();

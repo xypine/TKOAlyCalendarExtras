@@ -44,6 +44,6 @@ export async function ICSEndpoint(url: URL) {
 		return text(ics, { headers: { 'Content-Type': 'text/calendar' } });
 	} catch (e) {
 		console.error(e);
-		throw error(500, 'Failed to parse events');
+		throw error(500, 'Internal server error');
 	}
 }
