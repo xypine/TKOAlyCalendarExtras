@@ -1,5 +1,5 @@
 import { error, text } from '@sveltejs/kit';
-import { convertToICS, type TKOÄlyEvent } from './ics';
+import { convertToICS, convertToICSHistorical, type TKOÄlyEvent } from './ics';
 
 export async function ICSEndpoint(url: URL) {
 	let includeRegistrationEnds;
@@ -35,7 +35,13 @@ export async function ICSEndpoint(url: URL) {
 			throw error(500, 'Failed to parse events (not an array)');
 		}
 		console.log(events.length, 'events fetched');
-		const ics = convertToICS(events as TKOÄlyEvent[], includeRegistrationEnds, eventLength);
+		let ics;
+		if (url.searchParams.get('mode') === "history") {
+			ics = convertToICSHistorical(events as TKOÄlyEvent[]);
+		}
+		else {
+			ics = convertToICS(events as TKOÄlyEvent[], includeRegistrationEnds, eventLength);
+		}
 		return text(ics, { headers: { 'Content-Type': 'text/calendar' } });
 	} catch (e) {
 		console.error(e);
