@@ -76,9 +76,7 @@ export function filterEvents(events: TKOÄlyEvent[]): TKOÄlyEvent[] {
 	);
 }
 
-export function convertToICSHistorical(
-	events: TKOÄlyEvent[],
-): string {
+export function convertToICSHistorical(events: TKOÄlyEvent[]): string {
 	const calendar = ical({ name: 'TKO-äly calendar extras – historical events' });
 	calendar.timezone({
 		name: 'FOO',
@@ -99,7 +97,6 @@ export function convertToICSHistorical(
 
 	return calendar.toString();
 }
-
 
 export function formatDateToICS(date: Date | string): string {
 	const pad = (num: number) => num.toString().padStart(2, '0');

@@ -36,10 +36,9 @@ export async function ICSEndpoint(url: URL) {
 		}
 		console.log(events.length, 'events fetched');
 		let ics;
-		if (url.searchParams.get('mode') === "history") {
+		if (url.searchParams.get('mode') === 'history') {
 			ics = convertToICSHistorical(events as TKOÄlyEvent[]);
-		}
-		else {
+		} else {
 			ics = convertToICS(events as TKOÄlyEvent[], includeRegistrationEnds, eventLength);
 		}
 		return text(ics, { headers: { 'Content-Type': 'text/calendar' } });

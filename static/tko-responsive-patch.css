@@ -4,7 +4,7 @@
 	padding: 0 !important;
 	justify-content: center !important;
 
-	&>* {
+	& > * {
 		margin: 0 !important;
 	}
 }
@@ -47,7 +47,7 @@
 	/* drive mobile menu to the right */
 	flex: 1;
 
-	&>span {
+	& > span {
 		display: block;
 		height: 1.33em;
 	}
@@ -55,14 +55,13 @@
 
 #mobile_menu {
 	display: none !important;
-
 }
 
-#mobile_menu>button {
+#mobile_menu > button {
 	background: #141414;
 	color: white;
 	border: none;
-	border-radius: .25rem;
+	border-radius: 0.25rem;
 }
 
 #mobile_menu #mobile_menu_content {
@@ -94,13 +93,13 @@ body:has(#mobile_menu:focus-within) {
 	overflow: hidden;
 }
 
-#mobile_menu_content>a {
+#mobile_menu_content > a {
 	text-decoration: none;
 	background: white;
 	color: #222;
 
 	padding: 1em;
-	border-radius: .25rem;
+	border-radius: 0.25rem;
 	border: 1px solid #2225;
 }
 
@@ -159,7 +158,7 @@ body:has(#mobile_menu:focus-within) {
 	}
 
 	.header__title {
-		&>span {
+		& > span {
 			color: white;
 			height: auto !important;
 			line-height: 1.33;
@@ -182,7 +181,7 @@ body:has(#mobile_menu:focus-within) {
 	float: unset !important;
 	margin: 0 !important;
 
-	&>* {
+	& > * {
 		width: auto !important;
 	}
 }
@@ -202,8 +201,8 @@ body:has(#mobile_menu:focus-within) {
 	max-width: 80vw;
 }
 
-@media(max-width: 1080px) {
-	#content>#title {
+@media (max-width: 1080px) {
+	#content > #title {
 		font-size: 24px !important;
 	}
 
@@ -224,23 +223,22 @@ body:has(#mobile_menu:focus-within) {
 	gap: 10px;
 	padding-block: 20px;
 
-	&>* {
+	& > * {
 		display: none;
 	}
 
-	&>.section {
+	& > .section {
 		display: unset;
 		float: unset !important;
 		margin: 0 !important;
 		width: unset !important;
 	}
-
 }
 
 /* patched login form on members */
-#login>form {
+#login > form {
 	display: flex;
-	gap: .5em;
+	gap: 0.5em;
 	flex-wrap: wrap;
 	justify-content: end;
 }
@@ -248,13 +246,12 @@ body:has(#mobile_menu:focus-within) {
 #login .augmented {
 	display: flex;
 	align-items: center;
-	gap: .5em;
+	gap: 0.5em;
 }
 
 #login .submit {
 	width: 100%;
 }
-
 
 /* For some forsaken reason the body overflows by a few pixels on chromium based browsers */
 /* but not on firefox or safari. */
